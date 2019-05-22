@@ -1,24 +1,24 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { LoggingService } from '../logging.service';
+import { AccountsService } from '../accounts.service';
 @Component({
   selector: 'app-new-account',
   templateUrl: './new-account.component.html',
   styleUrls: ['./new-account.component.css'],
-  providers: [LoggingService]//let angular know how to provide the service
+  providers: [LoggingService, AccountsService]//let angular know how to provide the service
 })
 export class NewAccountComponent {
-  @Output() accountAdded = new EventEmitter<{name: string, status: string}>();
+  
 
 
   //inform angular we want the service
-  constructor(private loggingService: LoggingService){
+  constructor(private loggingService: LoggingService,
+    private accountsService: AccountsService){
 
   }
   onCreateAccount(accountName: string, accountStatus: string) {
-    this.accountAdded.emit({
-      name: accountName,
-      status: accountStatus
-    });
+    this.accountsService.addAcount(accountName, accountStatus);
+    
     this.loggingService.logStatusChange(accountStatus);
     //const service = new LoggingService();
     //service.logStatusChange(accountStatus);
